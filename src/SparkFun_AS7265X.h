@@ -76,6 +76,7 @@
 //Settings
 
 #define AS7265X_POLLING_DELAY 5 //Amount of ms to wait between checking for virtual register changes
+#define AS7265X_VIRTUAL_REGISTER_TIMEOUT 1000 //Maximum time to wait for a virtual register transaction
 
 #define AS72651_NIR 0x00
 #define AS72652_VISIBLE 0x01
