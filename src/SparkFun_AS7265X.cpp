@@ -378,19 +378,13 @@ void AS7265X::setGain(uint8_t gain)
 //Give this function a byte from 0 to 255.
 //Measurement time is 2.8ms per cycle per bank.
 //Six-channel measurements (modes 2 and 3) use two banks,
-//and so require twice the measurment time, 5.6ms per cycle.
+//and so require twice the single-bank measurment time, 5.6ms per cycle.
 void AS7265X::setIntegrationCycles(uint8_t cycleValue)
 {
   //Work in tenths of a millisecond and round up to avoid floating-point arithmetic.
   uint16_t measurementTime = (uint16_t)(((uint32_t)cycleValue * 56UL + 9UL) / 10UL);
 
-  uint16_t timeoutMargin = measurementTime / 2;       //Allow 50% additional margin for measurement completion.
-
-  //Use a fixed minimum margin to allow enough command and virtual-register polling overhead at short integration times.
-  if (timeoutMargin < AS7265X_MEASUREMENT_TIMEOUT_MIN_MARGIN)
-    timeoutMargin = AS7265X_MEASUREMENT_TIMEOUT_MIN_MARGIN;
-
-  maxWaitTime = measurementTime + timeoutMargin;
+  maxWaitTime = measurementTime + AS7265X_MEASUREMENT_TIMEOUT_MARGIN;
 
   virtualWriteRegister(AS7265X_INTERGRATION_TIME, cycleValue); //Write
 }

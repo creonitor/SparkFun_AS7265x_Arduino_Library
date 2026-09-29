@@ -77,7 +77,7 @@
 
 #define AS7265X_POLLING_DELAY 5 //Amount of ms to wait between checking for virtual register changes
 #define AS7265X_VIRTUAL_REGISTER_TIMEOUT 1000 //Maximum time to wait for a virtual register transaction
-#define AS7265X_MEASUREMENT_TIMEOUT_MIN_MARGIN 100 //Minimum measurement timeout margin in ms
+#define AS7265X_MEASUREMENT_TIMEOUT_MARGIN 100 //Measurement timeout margin in ms
 
 #define AS72651_NIR 0x00
 #define AS72652_VISIBLE 0x01
@@ -207,8 +207,8 @@ private:
 
   //The AS7265x datasheet specifies integration time as 2.8ms * integration cycles, per bank.
   //Six-channel measurements (i.e. all colors at once, modes 2 and 3) use a 2nd bank, and so require twice the single-bank integration time.
-  //Allow 50% additional time for command and virtual-register polling overhead.
-  uint16_t maxWaitTime = 2142;  //255 cycles × 2.8ms × 2 banks x 1.5 = 2142 ms
+  //Allow additional 100 ms for command and virtual-register polling overhead.
+  uint16_t maxWaitTime = 1528;  //255 cycles × 2.8 ms × 2 banks + 100 ms margin = 1528 ms
 };
 
 #endif
